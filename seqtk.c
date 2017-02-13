@@ -299,6 +299,7 @@ int stk_trimfq(int argc, char *argv[])
 		fprintf(stderr, "         -b INT      trim INT bp from left (non-zero to disable -q/-l) [0]\n");
 		fprintf(stderr, "         -e INT      trim INT bp from right (non-zero to disable -q/-l) [0]\n");
 		fprintf(stderr, "         -L INT      retain at most INT bp from the 5'-end (non-zero to disable -q/-l) [0]\n");
+		fprintf(stderr, "         -Q          force FASTQ output\n");
 		fprintf(stderr, "\n");
 		return 1;
 	}
@@ -341,12 +342,12 @@ int stk_trimfq(int argc, char *argv[])
 				end = beg + min_len;
 			}
 		} else beg = 0, end = seq->seq.l;
-		putchar(seq->qual.l? '@' : '>'); fputs(seq->name.s, stdout); 
+		putchar(seq->is_fastq? '@' : '>'); fputs(seq->name.s, stdout); 
 		if (seq->comment.l) {
 			putchar(' '); puts(seq->comment.s);
 		} else putchar('\n');
 		fwrite(seq->seq.s + beg, 1, end - beg, stdout); putchar('\n');
-		if (seq->qual.l) {
+		if (seq->is_fastq) {
 			puts("+");
 			fwrite(seq->qual.s + beg, 1, end - beg, stdout); putchar('\n');
 		}
@@ -1663,7 +1664,7 @@ static int usage()
 {
 	fprintf(stderr, "\n");
 	fprintf(stderr, "Usage:   seqtk <command> <arguments>\n");
-	fprintf(stderr, "Version: 1.2-r95-dirty\n\n");
+	fprintf(stderr, "Version: 1.2-r101-dirty\n\n");
 	fprintf(stderr, "Command: seq       common transformation of FASTA/Q\n");
 	fprintf(stderr, "         comp      get the nucleotide composition of FASTA/Q\n");
 	fprintf(stderr, "         sample    subsample sequences\n");
