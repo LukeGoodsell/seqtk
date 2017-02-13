@@ -2,4 +2,3 @@
 *.a
 *.dSYM
 .*.swp
-version.h
