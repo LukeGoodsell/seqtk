@@ -1,1 +1,1 @@
-#define SEQTKVERSION "1.2-r100-dirty"
+#define SEQTKVERSION "1.2-r107-dirty"
